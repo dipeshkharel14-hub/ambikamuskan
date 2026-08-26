@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>For Ambika & Muskan — Our Little Universe</title>
+<meta name="description" content="A memory universe for Ambika Diju & Muskan, saved and shared with love.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&family=Caveat:wght@500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&family=Noto+Serif+Devanagari:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   0. THEME TOKENS (DARK & LIGHT MODE)
+   ========================================================= */
+:root{
+  --midnight:#0a0908;
+  --midnight-2:#121011;
+  --midnight-3:#181514;
+  --ivory:#f3ead9;
+  --ivory-dim:#cabfa8;
+  --ivory-faint:#8c8577;
+  --gold:#c8a15c;
+  --gold-soft:#e7cf9e;
+  --rose:#a85a56;
+  --line:rgba(243,234,217,0.15);
+  --line-soft:rgba(243,234,217,0.08);
+  --shadow:0 25px 60px -20px rgba(0,0,0,0.8);
+  --serif:'Cormorant Garamond', 'Times New Roman', serif;
+  --sans:'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+  --hand:'Caveat', cursive;
+  --dev:'Noto Sans Devanagari','Noto Serif Devanagari',sans-serif;
+  --dev-serif:'Noto Serif Devanagari','Noto Sans Devanagari',serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --polaroid-bg:#efe7d6;
+  --polaroid-text:#3a3226;
+  --letter-bg:#f3ecdc;
+  --letter-text:#332c20;
+}
+
+html[data-theme="light"]{
+  --midnight:#f9f5eb;
+  --midnight-2:#f1e9d7;
+  --midnight-3:#e8dcc4;
+  --ivory:#282218;
+  --ivory-dim:#5e5340;
+  --ivory-faint:#8a7f6a;
+  --gold:#9d7a3c;
+  --gold-soft:#7c5e29;
+  --rose:#8c4542;
+  --line:rgba(40,34,24,0.18);
+  --line-soft:rgba(40,34,24,0.08);
+  --shadow:0 20px 50px -20px rgba(60,50,30,0.2);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--midnight);
+  color:var(--ivory);
+  font-family:var(--sans);
+  font-weight:300;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  transition:background 0.4s ease, color 0.4s ease;
+}
+
+body[lang-mode="ne"] :is(.i18n-text, .head-sub, .hero-line, p, .tl-desc){font-family:var(--dev);}
+body[lang-mode="ne"] :is(.head-title, .hero-title, .chapter-title, .shlok-sanskrit){font-family:var(--dev-serif);}
+
+img, video{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit;}
+::selection{background:var(--gold);color:var(--midnight);}
+
+.eyebrow{font-family:var(--sans);letter-spacing:0.3em;text-transform:uppercase;font-size:0.7rem;color:var(--gold);font-weight:600;}
+.serif{font-family:var(--serif);}
+.container{max-width:1160px;margin:0 auto;padding:0 5vw;}
+.section{position:relative;padding:min(12vh,110px) 0;}
+
+.grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.04;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+#particleCanvas{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.45;}
+
+/* Background Video Styling with Audio enabled */
+#bgVideoContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.25;
+}
+#bgVideoPlayer {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   1. INTRO — RAKSHA BANDHAN SANSKRIT SHLOK
+   ========================================================= */
+#intro{position:fixed;inset:0;z-index:1000;background:radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--midnight-2) 85%, black 0%) 0%, var(--midnight) 75%);
+  display:flex;align-items:center;justify-content:center;transition:opacity 1s var(--ease), visibility 1s var(--ease);}
+#intro.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.intro-inner{text-align:center;padding:0 6vw;max-width:760px;}
+.shlok-block{margin-bottom:2rem;opacity:0;transition:opacity 1.2s var(--ease);}
+.shlok-block.show{opacity:1;}
+.shlok-sanskrit{font-family:var(--dev-serif);font-size:clamp(1.2rem,3.5vw,1.7rem);color:var(--gold-soft);line-height:1.9;font-weight:600;}
+.shlok-meaning{font-family:var(--dev);font-size:0.9rem;color:var(--ivory-dim);margin-top:1rem;line-height:1.8;max-width:580px;margin-left:auto;margin-right:auto;}
+.intro-line{font-family:var(--serif);font-weight:300;font-size:clamp(1.3rem,4vw,2.2rem);color:var(--ivory);opacity:0;transform:translateY(16px);margin-top:0.6rem;}
+.intro-line.show{animation:introReveal 1.2s var(--ease) forwards;}
+@keyframes introReveal{0%{opacity:0;transform:translateY(16px);}100%{opacity:1;transform:translateY(0);}}
+.intro-line .accent{color:var(--gold-soft);font-style:italic;}
+#enterBtn{margin-top:2.5rem;opacity:0;transition:all 0.4s var(--ease);border:1px solid var(--gold);padding:0.9rem 2.8rem;border-radius:30px;
+  letter-spacing:0.2em;text-transform:uppercase;font-size:0.75rem;color:var(--gold-soft);background:rgba(200,161,92,0.1);font-weight:500;}
+#enterBtn.show{opacity:1;}
+#enterBtn:hover{background:var(--gold);color:var(--midnight);transform:scale(1.04);}
+
+/* =========================================================
+   2. GLOBAL HEADER NAVIGATION & CONTROLS
+   ========================================================= */
+#mainNav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;
+  padding:0.9rem 5vw;background:color-mix(in srgb, var(--midnight) 85%, transparent);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-soft);transition:all 0.4s var(--ease);}
+.nav-brand{font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--gold-soft);font-weight:600;}
+.nav-controls{display:flex;align-items:center;gap:0.8rem;}
+.control-btn{border:1px solid var(--gold);padding:0.4rem 0.85rem;border-radius:20px;font-size:0.72rem;letter-spacing:0.08em;color:var(--gold-soft);transition:all 0.3s ease;background:rgba(200,161,92,0.06);}
+.control-btn:hover{background:var(--gold);color:var(--midnight);}
+
+/* =========================================================
+   3. HERO SECTION & SELECTION CARDS
+   ========================================================= */
+#hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:7rem 5vw 3rem;}
+.hero-content{position:relative;z-index:2;max-width:850px;}
+.hero-title{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,7.5vw,5.2rem);color:var(--ivory);margin:0 0 0.8rem;line-height:1.05;}
+.hero-sub{font-size:0.85rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600;}
+.hero-line{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.5vw,1.45rem);color:var(--ivory-dim);max-width:560px;margin:0 auto;}
+
+/* Audio Memory Banner */
+.audio-memory-banner{
+  margin: 1.8rem auto 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: color-mix(in srgb, var(--midnight-2) 90%, var(--gold) 10%);
+  border: 1px solid var(--gold);
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.4);
+  animation: floatBanner 4s ease-in-out infinite;
+}
+@keyframes floatBanner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.audio-memory-text{
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--gold-soft);
+}
+
+.sister-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;margin-top:2.5rem;width:100%;}
+.sister-card{flex:1;min-width:270px;max-width:380px;border:1px solid var(--gold);border-radius:8px;padding:2.4rem 2rem;text-align:center;
+  background:color-mix(in srgb, var(--midnight-2) 90%, transparent);box-shadow:var(--shadow);transition:all 0.4s var(--ease);position:relative;overflow:hidden;cursor:pointer;}
+.sister-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg, var(--gold), var(--gold-soft));}
+.sister-card:hover{transform:translateY(-8px);border-color:var(--gold-soft);background:var(--midnight-2);}
+.sister-card .sc-emoji{font-size:2.4rem;margin-bottom:0.4rem;}
+.sister-card .sc-name{font-family:var(--serif);font-size:1.8rem;margin:0.2rem 0;color:var(--gold-soft);font-weight:500;}
+.sister-card .sc-desc{font-size:0.85rem;color:var(--ivory-dim);font-style:italic;font-family:var(--serif);margin-bottom:1.5rem;}
+.sister-card .sc-btn{display:inline-block;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--midnight);background:var(--gold-soft);padding:0.65rem 1.6rem;border-radius:25px;font-weight:600;}
+
+/* Guided System Floating Hint */
+.guide-hint{background:color-mix(in srgb, var(--midnight-3) 90%, transparent);border:1px dashed var(--gold);padding:0.75rem 1.4rem;border-radius:30px;
+  font-size:0.8rem;color:var(--gold-soft);margin-top:2.2rem;display:inline-flex;align-items:center;gap:0.5rem;animation:pulseBorder 3s infinite ease-in-out;}
+@keyframes pulseBorder{0%,100%{border-color:var(--gold);}50%{border-color:transparent;}}
+
+/* =========================================================
+   4. EXCLUSIVE DEDICATED VIEWS
+   ========================================================= */
+.dedicated-view{display:none;position:relative;z-index:10;padding:6rem 0 4rem;min-height:100vh;}
+.dedicated-view.active{display:block;animation:fadeInView 0.5s var(--ease);}
+@keyframes fadeInView{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+.back-home-bar{margin-bottom:2.5rem;display:flex;justify-content:flex-start;}
+.back-btn{border:1px solid var(--gold);padding:0.6rem 1.4rem;border-radius:30px;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-soft);background:var(--midnight-2);transition:all 0.3s ease;}
+.back-btn:hover{background:var(--gold);color:var(--midnight);}
+
+.view-title{font-family:var(--serif);font-size:clamp(2.4rem,7vw,4.2rem);color:var(--gold-soft);margin:0;text-align:center;}
+.view-sub{font-family:var(--serif);font-style:italic;color:var(--ivory-dim);text-align:center;font-size:1.2rem;max-width:580px;margin:0.8rem auto 3rem;}
+
+.year-block{margin-bottom:3.5rem;}
+.year-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;}
+.year-num{font-family:var(--serif);font-size:1.8rem;color:var(--gold);font-weight:600;}
+.year-line{flex:1;height:1px;background:var(--line);}
+.year-tag{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-soft);background:rgba(200,161,92,0.12);padding:0.25rem 0.7rem;border-radius:12px;}
+.year-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.4rem;}
+
+.mem-card{background:var(--midnight-2);border:1px solid var(--line);border-radius:6px;overflow:hidden;cursor:pointer;transition:all 0.35s ease;}
+.mem-card:hover{transform:translateY(-5px);border-color:var(--gold);}
+.mem-card .mc-photo{aspect-ratio:4/5;overflow:hidden;background:var(--midnight-3);position:relative;}
+.mem-card .mc-photo img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s var(--ease);}
+.mem-card:hover .mc-photo img{transform:scale(1.06);}
+.mem-card .mc-info{padding:1rem 1.1rem 1.2rem;}
+.mem-card .mc-date{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);}
+.mem-card .mc-title{font-family:var(--serif);font-size:1.2rem;margin-top:0.3rem;line-height:1.3;}
+.mem-card .mc-desc{font-size:0.85rem;color:var(--ivory-dim);margin-top:0.4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+.mem-card.coming-soon{display:flex;align-items:center;justify-content:center;min-height:180px;border:1px dashed var(--line);cursor:default;background:var(--midnight-3);}
+.mem-card.coming-soon .cs-text{font-family:var(--serif);font-style:italic;color:var(--ivory-faint);text-align:center;padding:1rem;font-size:1rem;}
+
+/* =========================================================
+   5. HOME MEMORY PREVIEW, POLAROIDS & CREATIVE MILESTONES
+   ========================================================= */
+.preview-box{border:1px solid var(--line);border-radius:8px;padding:2rem;background:var(--midnight-2);margin-top:2rem;}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;}
+
+.head-block{text-align:center;margin-bottom:3.5rem;}
+.head-title{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,5.5vw,3.5rem);margin:0.4rem 0;}
+.head-sub{color:var(--ivory-dim);font-family:var(--serif);font-style:italic;font-size:1.05rem;max-width:580px;margin:0.5rem auto 0;}
+
+/* Polaroid Gallery Wall */
+.wall-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:2.2rem 1.6rem;padding:1rem 0;}
+.polaroid{background:var(--polaroid-bg);padding:0.8rem 0.8rem 2.2rem;width:210px;box-shadow:0 18px 35px -12px rgba(0,0,0,0.6);
+  transition:transform 0.4s var(--ease), z-index 0s;cursor:pointer;position:relative;border-radius:2px;}
+.polaroid img{width:100%;aspect-ratio:1/1;object-fit:cover;}
+.polaroid .cap{font-family:var(--hand);color:var(--polaroid-text);font-size:1.15rem;text-align:center;margin-top:0.7rem;}
+.polaroid:hover{transform:rotate(0deg) scale(1.08) !important;z-index:10;}
+
+/* Category Filter Bar */
+.filter-bar{display:flex;flex-wrap:wrap;gap:0.7rem;justify-content:center;margin-bottom:2.5rem;}
+.filter-btn{border:1px solid var(--line);padding:0.55rem 1.2rem;border-radius:30px;font-size:0.75rem;letter-spacing:0.06em;color:var(--ivory-dim);transition:all 0.3s ease;}
+.filter-btn:hover{border-color:var(--gold);color:var(--ivory);}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--midnight);}
+
+/* Creative Space / Digital Milestones Grid */
+.creator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;}
+.creator-card{border:1px solid var(--line);padding:2.2rem 1.6rem;text-align:center;border-radius:8px;background:var(--midnight-2);transition:all 0.3s ease;}
+.creator-card:hover{border-color:var(--gold);transform:translateY(-4px);}
+.creator-icon{font-size:2.2rem;margin-bottom:0.6rem;}
+.creator-title{font-family:var(--serif);font-size:1.35rem;color:var(--gold-soft);margin-bottom:0.4rem;}
+.creator-desc{font-size:0.88rem;color:var(--ivory-dim);line-height:1.5;}
+
+/* =========================================================
+   6. FUN GAMES & SEQUENTIAL 10-QUESTION QUIZ
+   ========================================================= */
+.game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;}
+.game-card{border:1px solid var(--line);border-radius:8px;padding:2.2rem 1.8rem;background:var(--midnight-2);text-align:center;}
+.game-title{font-family:var(--serif);font-size:1.5rem;color:var(--gold-soft);margin-bottom:0.8rem;}
+
+/* Bond Meter Game */
+.meter-btn{border:1px solid var(--gold);padding:0.6rem 1.2rem;border-radius:20px;margin:0.4rem;font-size:0.8rem;color:var(--gold-soft);transition:all 0.3s ease;}
+.meter-btn:hover{background:var(--gold);color:var(--midnight);}
+.meter-result{margin-top:1.2rem;font-family:var(--serif);font-size:1.3rem;color:var(--gold-soft);min-height:2em;}
+
+/* Memory Quiz Game (One Question At A Time) */
+.quiz-progress{font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-weight:600;}
+.quiz-q{font-family:var(--serif);font-size:1.3rem;margin-bottom:1.4rem;text-align:left;}
+.quiz-opt{display:block;width:100%;border:1px solid var(--line);padding:0.75rem 1.1rem;border-radius:6px;margin-bottom:0.65rem;text-align:left;font-size:0.92rem;transition:all 0.25s ease;}
+.quiz-opt:hover{border-color:var(--gold);background:var(--midnight-3);}
+.quiz-opt.correct{border-color:#7fae83;color:#a9d1ad;background:rgba(127,174,131,0.18);}
+.quiz-opt.wrong{border-color:var(--rose);color:#dba1a0;background:rgba(168,90,86,0.18);}
+.quiz-final{text-align:center;padding:1.5rem 0;}
+.quiz-score-num{font-family:var(--serif);font-size:2.8rem;color:var(--gold-soft);margin:0.5rem 0;}
+
+/* =========================================================
+   7. SECRET LETTERS & LIGHTBOX
+   ========================================================= */
+.envelopes{display:flex;flex-wrap:wrap;justify-content:center;gap:3rem;padding:1.5rem 0;}
+.envelope{width:230px;text-align:center;cursor:pointer;}
+.env-graphic{width:100%;aspect-ratio:3/2;border:1px solid var(--gold);position:relative;background:var(--midnight-2);overflow:hidden;border-radius:6px;transition:transform 0.3s ease;}
+.envelope:hover .env-graphic{transform:translateY(-5px);}
+.env-graphic::before{content:"";position:absolute;top:0;left:0;right:0;height:100%;
+  background:linear-gradient(135deg, transparent 49.5%, var(--gold) 50%, transparent 50.5%),linear-gradient(-135deg, transparent 49.5%, var(--gold) 50%, transparent 50.5%);opacity:0.35;}
+.env-label{margin-top:0.9rem;font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-soft);font-weight:500;}
+
+#letterModal,#lightbox{position:fixed;inset:0;z-index:2100;background:rgba(6,5,4,0.96);display:flex;align-items:center;justify-content:center;padding:5vh 5vw;opacity:0;visibility:hidden;transition:opacity 0.4s ease,visibility 0.4s ease;}
+#letterModal.open,#lightbox.open{opacity:1;visibility:visible;}
+
+.letter-paper{max-width:580px;width:100%;background:var(--letter-bg);color:var(--letter-text);padding:2.8rem 2.4rem;max-height:82vh;overflow-y:auto;position:relative;box-shadow:var(--shadow);border-radius:4px;}
+.letter-heading{font-family:var(--serif);font-style:italic;font-size:1.7rem;margin-bottom:1rem;color:#221d15;}
+.letter-body{font-family:var(--hand);font-size:1.45rem;line-height:1.8;white-space:pre-wrap;}
+body[lang-mode="ne"] .letter-body{font-family:var(--dev);font-size:1.1rem;}
+.modal-close{position:absolute;top:1rem;right:1.3rem;font-size:1.5rem;color:var(--letter-text);opacity:0.7;cursor:pointer;}
+
+.lb-inner{max-width:950px;width:100%;display:flex;flex-direction:column;align-items:center;gap:1.2rem;}
+.lb-photo-wrap img{max-width:100%;max-height:65vh;object-fit:contain;box-shadow:var(--shadow);border-radius:4px;}
+.lb-text{text-align:center;max-width:600px;}
+.lb-date{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
+.lb-title{font-family:var(--serif);font-size:1.6rem;margin:0.3rem 0;color:#f3ead9;}
+.lb-desc{color:#cabfa8;font-size:0.95rem;}
+
+/* =========================================================
+   8. FINALE
+   ========================================================= */
+#finale{text-align:center;background:radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--midnight-2) 70%, #c8a15c 10%) 0%, var(--midnight) 70%);padding:min(14vh,130px) 0;}
+.rakhi-visual{margin:0 auto 2rem;width:120px;height:120px;}
+.rakhi-visual svg{width:100%;height:100%;}
+.finale-title{font-family:var(--serif);font-size:clamp(2.4rem,7vw,4rem);color:var(--gold-soft);margin:0;}
+.finale-names{font-size:0.88rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--ivory-dim);margin:0.8rem 0 3rem;}
+.finale-reveal p{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,3vw,1.65rem);color:var(--ivory-dim);max-width:580px;margin:1.1rem auto;opacity:0;transform:translateY(14px);transition:opacity 1s var(--ease), transform 1s var(--ease);}
+.finale-reveal p.revealed{opacity:1;transform:translateY(0);}
+.finale-reveal p.emph{color:var(--gold-soft);}
+
+footer{text-align:center;padding:3rem 5vw 4rem;color:var(--ivory-faint);font-size:0.78rem;letter-spacing:0.06em;border-top:1px solid var(--line-soft);}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.9s var(--ease), transform 0.9s var(--ease);}
+.reveal.revealed{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body lang-mode="en">
+
+<div class="grain"></div>
+<canvas id="particleCanvas"></canvas>
+
+<!-- Background Video Layer (Plays audio + video for Home & Finale screens) -->
+<div id="bgVideoContainer">
+  <video id="bgVideoPlayer" autoplay loop playsinline preload="auto">
+    <source src="5031_364x486.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- =========================================================
+     1. INTRO (TRADITIONAL RAKSHA BANDHAN SANSKRIT SHLOK)
+     ========================================================= -->
+<div id="intro">
+  <div class="intro-inner">
+    <div class="shlok-block" id="shlokBlock">
+      <div class="shlok-sanskrit">येन बद्धो बली राजा दानवेन्द्रो महाबलः।<br>तेन त्वामभिबध्नामि रक्षे मा चल मा चल॥</div>
+      <div class="shlok-meaning">जुन पवित्र रक्षा-सूत्रले महाबली राजा बलिलाई बाँधिएको थियो, त्यही सूत्रले म तिमीहरूलाई बाँध्दछु। हे रक्षा-सूत्र, अटल रहनू — कहिल्यै नडग्मगाउनू।</div>
+    </div>
+    <div class="intro-line" id="intro1">For Ambika Diju &amp; Muskan</div>
+    <div class="intro-line" id="intro2">I saved a little piece of <span class="accent">our universe.</span></div>
+    <div class="intro-line" id="intro3">Come with me.</div>
+    <button id="enterBtn"><span>Enter Our Story</span></button>
+  </div>
+</div>
+
+<!-- =========================================================
+     2. GLOBAL NAVIGATION & HEADER CONTROLS
+     ========================================================= -->
+<nav id="mainNav">
+  <div class="nav-brand">Ambika • Muskan • Dipesh</div>
+  <div class="nav-controls">
+    <button class="control-btn" id="langToggle">नेप</button>
+    <button class="control-btn" id="themeToggle">☀️</button>
+  </div>
+</nav>
+
+<!-- =========================================================
+     3. MAIN HOME VIEW
+     ========================================================= -->
+<div id="homeView">
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-sub" id="heroNames">Ambika (Diju) • Muskan (Sister) • Dipesh</div>
+      <h1 class="hero-title" data-i18n="hero_title">Our Little<br>Universe</h1>
+      <p class="hero-line i18n-text" data-i18n="hero_line">One special family. Thousands of moments. One forever story.</p>
+
+      <!-- Audio Memory Prompt Banner -->
+      <div class="audio-memory-banner">
+        <span>🎧</span>
+        <span class="audio-memory-text i18n-text" data-i18n="audio_remember_prompt">Are you able to remember this audio?</span>
+      </div>
+
+      <!-- Exclusive Selection Cards -->
+      <div class="sister-grid">
+        <div class="sister-card" id="openAmbikaBtn">
+          <div class="sc-emoji">🌷</div>
+          <div class="sc-name">Ambika Diju</div>
+          <div class="sc-desc i18n-text" data-i18n="ambika_card_desc">View Ambika Diju's exclusive life timeline, photo memories & letters from birth to now.</div>
+          <div class="sc-btn i18n-text" data-i18n="open_ambika">Open Ambika Diju's Space →</div>
+        </div>
+        <div class="sister-card" id="openMuskanBtn">
+          <div class="sc-emoji">🌸</div>
+          <div class="sc-name">Muskan (Sister)</div>
+          <div class="sc-desc i18n-text" data-i18n="muskan_card_desc">View Muskan's exclusive life timeline, photo memories & letters from birth to now.</div>
+          <div class="sc-btn i18n-text" data-i18n="open_muskan">Open Muskan's Space →</div>
+        </div>
+      </div>
+
+      <div class="guide-hint i18n-text" data-i18n="guide_tip">
+        💡 Tap Ambika Diju or Muskan above to explore their individual chapters!
+      </div>
+    </div>
+  </section>
+
+  <!-- SHARED MEMORIES PREVIEW SECTION -->
+  <section id="previewSection" class="section">
+    <div class="container">
+      <div class="head-block reveal">
+        <div class="eyebrow i18n-text" data-i18n="preview_eyebrow">Shared Memories Preview</div>
+        <h2 class="head-title i18n-text" data-i18n="preview_title">Family Moments Together</h2>
+        <p class="head-sub i18n-text" data-i18n="preview_sub">A quick look at memories involving all of us together — tap any photo to expand.</p>
+      </div>
+
+      <div class="preview-box reveal">
+        <div class="preview-grid" id="homePreviewGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLAROID GALLERY WALL SECTION -->
+  <section id="polaroidSection" class="section">
+    <div class="container">
+      <div class="head-block reveal">
+        <div class="eyebrow i18n-text" data-i18n="wall_eyebrow">The Polaroid Wall</div>
+        <h2 class="head-title i18n-text" data-i18n="wall_title">Snapshots Of Us</h2>
+      </div>
+
+      <div class="filter-bar" id="filterBar"></div>
+      <div class="wall-grid" id="polaroidWallGrid"></div>
+    </div>
+  </section>
+
+  <!-- CREATOR & DIGITAL MILESTONES SPACE -->
+  <section id="creatorSection" class="section">
+    <div class="container">
+      <div class="head-block reveal">
+        <div class="eyebrow i18n-text" data-i18n="creator_eyebrow">Our Creative World</div>
+        <h2 class="head-title i18n-text" data-i18n="creator_title">Digital Milestones &amp; Content Journey</h2>
+        <p class="head-sub i18n-text" data-i18n="creator_sub">Celebrating creativity, digital storytelling, video content, and online milestones made in Nepal.</p>
+      </div>
+
+      <div class="creator-grid" id="creatorGrid">
+        <div class="creator-card reveal">
+          <div class="creator-icon">📹</div>
+          <div class="creator-title i18n-text" data-i18n="cr_1_title">Digital Storytelling</div>
+          <div class="creator-desc i18n-text" data-i18n="cr_1_desc">Creating videos and sharing authentic stories that reach thousands of hearts across Nepal.</div>
+        </div>
+        <div class="creator-card reveal">
+          <div class="creator-icon">✨</div>
+          <div class="creator-title i18n-text" data-i18n="cr_2_title">Monetized Milestones</div>
+          <div class="creator-desc i18n-text" data-i18n="cr_2_desc">Turning passion into purpose with official digital creator achievements and verified milestones.</div>
+        </div>
+        <div class="creator-card reveal">
+          <div class="creator-icon">🔥</div>
+          <div class="creator-title i18n-text" data-i18n="cr_3_title">Viral Highlights</div>
+          <div class="creator-desc i18n-text" data-i18n="cr_3_desc">Capturing moments that spark engagement, smiles, and widespread appreciation online.</div>
+        </div>
+        <div class="creator-card reveal">
+          <div class="creator-icon">💙</div>
+          <div class="creator-title i18n-text" data-i18n="cr_4_title">Family Inspiration</div>
+          <div class="creator-desc i18n-text" data-i18n="cr_4_desc">The creative drive that proves passion and consistency always bring great success.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUN GAMES SECTION -->
+  <section id="gamesSection" class="section">
+    <div class="container">
+      <div class="head-block reveal">
+        <div class="eyebrow i18n-text" data-i18n="games_eyebrow">Interactive Fun</div>
+        <h2 class="head-title i18n-text" data-i18n="games_title">Family Games &amp; Trivia</h2>
+      </div>
+
+      <div class="game-grid">
+        <!-- Family Bond Meter Game -->
+        <div class="game-card reveal">
+          <div class="game-title i18n-text" data-i18n="bond_title">Family &amp; Sibling Bond Meter 💖</div>
+          <p class="i18n-text" style="font-size:0.85rem;color:var(--ivory-dim);" data-i18n="bond_desc">Check today's official family compatibility index!</p>
+          <div style="margin:1.2rem 0;">
+            <button class="meter-btn" onclick="testBond('Ambika Diju')">Dipesh &amp; Ambika Diju</button>
+            <button class="meter-btn" onclick="testBond('Muskan')">Dipesh &amp; Muskan</button>
+            <button class="meter-btn" onclick="testBond('Both')">All Of Us</button>
+          </div>
+          <div class="meter-result" id="bondResult">Tap a pair above!</div>
+        </div>
+
+        <!-- Sequential 10 Question Quiz Game -->
+        <div class="game-card reveal">
+          <div class="game-title i18n-text" data-i18n="quiz_title">10-Question Family Quiz ❓</div>
+          <div class="quiz-box" id="quizContainer"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECRET LETTERS -->
+  <section id="lettersSection" class="section">
+    <div class="container">
+      <div class="head-block reveal">
+        <div class="eyebrow i18n-text" data-i18n="letters_eyebrow">Two Envelopes</div>
+        <h2 class="head-title i18n-text" data-i18n="letters_title">Letters Written For You</h2>
+      </div>
+      <div class="envelopes">
+        <div class="envelope reveal" onclick="openLetter('ambika')">
+          <div class="env-graphic"></div>
+          <div class="env-label i18n-text" data-i18n="env_ambika">For Ambika Diju 🌷</div>
+        </div>
+        <div class="envelope reveal" onclick="openLetter('muskan')">
+          <div class="env-graphic"></div>
+          <div class="env-label i18n-text" data-i18n="env_muskan">For Muskan 🌸</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINALE -->
+  <section id="finale">
+    <div class="container">
+      <div class="reveal">
+        <div class="rakhi-visual">
+          <svg viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="46" stroke="#c8a15c" stroke-width="1.2"/>
+            <circle cx="50" cy="50" r="30" stroke="#e7cf9e" stroke-width="0.8"/>
+            <circle cx="50" cy="28" r="4" fill="#a85a56"/>
+            <circle cx="50" cy="72" r="4" fill="#a85a56"/>
+            <circle cx="28" cy="50" r="4" fill="#c8a15c"/>
+            <circle cx="72" cy="50" r="4" fill="#c8a15c"/>
+            <circle cx="50" cy="50" r="10" fill="#0a0908" stroke="#e7cf9e" stroke-width="1"/>
+          </svg>
+        </div>
+        <h2 class="finale-title i18n-text" data-i18n="finale_title">Happy Raksha Bandhan</h2>
+        <div class="finale-names">Ambika Diju &amp; Muskan</div>
+      </div>
+      <div class="finale-reveal" id="finaleReveal">
+        <p class="i18n-text" data-i18n="finale_1">Relationships are built on protection and love.</p>
+        <p class="i18n-text" data-i18n="finale_2">And the truth is...</p>
+        <p class="emph i18n-text" data-i18n="finale_3">You both have guided and protected pieces of me too.</p>
+        <p class="i18n-text" data-i18n="finale_4">No matter where life takes us...</p>
+        <p class="emph i18n-text" data-i18n="finale_5">Our family bond remains forever.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- =========================================================
+     4. DEDICATED VIEW: AMBIKA DIJU ONLY
+     ========================================================= -->
+<div id="ambikaView" class="dedicated-view">
+  <div class="container">
+    <div class="back-home-bar">
+      <button class="back-btn" onclick="showHomeView()">← Back To Main Universe</button>
+    </div>
+    <h1 class="view-title">AMBIKA DIJU 🌷</h1>
+    <p class="view-sub i18n-text" data-i18n="ambika_view_sub">Ambika Diju's dedicated memory chapter from birth through today and future memories.</p>
+
+    <div id="ambikaTimelineContainer"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     5. DEDICATED VIEW: MUSKAN ONLY
+     ========================================================= -->
+<div id="muskanView" class="dedicated-view">
+  <div class="container">
+    <div class="back-home-bar">
+      <button class="back-btn" onclick="showHomeView()">← Back To Main Universe</button>
+    </div>
+    <h1 class="view-title">MUSKAN 🌸</h1>
+    <p class="view-sub i18n-text" data-i18n="muskan_view_sub">Muskan's dedicated memory chapter from birth through today and future memories.</p>
+
+    <div id="muskanTimelineContainer"></div>
+  </div>
+</div>
+
+<footer class="i18n-text" data-i18n="footer_text">Made with everything I have, for Ambika Diju &amp; Muskan by Dipesh.</footer>
+
+<!-- MODALS -->
+<div id="letterModal">
+  <div class="letter-paper">
+    <span class="modal-close" onclick="closeLetterModal()">✕</span>
+    <div class="letter-heading" id="letterHeading"></div>
+    <div class="letter-body" id="letterBody"></div>
+  </div>
+</div>
+
+<div id="lightbox">
+  <span class="modal-close" style="color:#fff;" onclick="closeLightbox()">✕</span>
+  <div class="lb-inner">
+    <div class="lb-photo-wrap"><img id="lbImg" alt=""></div>
+    <div class="lb-text">
+      <div class="lb-date" id="lbDate"></div>
+      <div class="lb-title" id="lbTitle"></div>
+      <div class="lb-desc" id="lbDesc"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Dedicated Soundtrack Audio Player for Sister Views -->
+<audio id="audioPlayer" preload="auto" loop></audio>
+
+<!-- =========================================================================
+     CONFIG & SCRIPT DATA (EDIT-FRIENDLY SECTION)
+     ========================================================================= -->
+<script>
+/* =========================================================================
+   EDIT YOUR MEDIA & SITE DATA HERE EASILY:
+   - Home video file: "5031_364x486.mp4"
+   - Ambika view soundtrack: Edit file name in audioTracks.ambika below
+   - Muskan view soundtrack: Edit file name in audioTracks.muskan below
+   ========================================================================= */
+
+const audioTracks = {
+  homeVideo: "5031_364x486.mp4",
+  ambika: "music-ambika.mp3",
+  muskan: "music-muskan.mp3"
+};
+
+const siteConfig = {
+  brotherName: "Dipesh",
+  sisterOne: "Ambika Diju",
+  sisterTwo: "Muskan",
+  birthYear: 2010,
+  futureYearsAhead: 3
+};
+
+const memories = [
+  {
+    image: "2011-02-10.jpg",
+    date: "10 February 2011",
+    year: 2011,
+    title: "Where Our Story Started",
+    titleNp: "जहाँबाट हाम्रो कथा सुरु भयो",
+    description: "The earliest picture saved from our childhood.",
+    descriptionNp: "हाम्रो बाल्यकालको पहिलो बचाइएको तस्बिर।",
+    person: "both",
+    type: "childhood"
+  },
+  {
+    image: "ambika-2015.jpg",
+    date: "15 August 2015",
+    year: 2015,
+    title: "Ambika Diju's Graceful Smile",
+    titleNp: "अम्बिका दिजुको मीठो मुस्कान",
+    description: "A calm and sweet memory with Ambika Diju.",
+    descriptionNp: "अम्बिका दिजुको एउटा मीठो र शान्त सम्झना।",
+    person: "ambika",
+    type: "family"
+  },
+  {
+    image: "muskan-2017.jpg",
+    date: "20 October 2017",
+    year: 2017,
+    title: "Muskan's Infinite Energy",
+    titleNp: "मुस्कानको चञ्चलता",
+    description: "Always full of life, laughter, and endless chatter.",
+    descriptionNp: "सधैं हाँसो, हल्ला र रमाइलोले भरिएको क्षण।",
+    person: "muskan",
+    type: "funny"
+  },
+  {
+    image: "shared-2020.jpg",
+    date: "25 October 2020",
+    year: 2020,
+    title: "Dashain Tika Together",
+    titleNp: "सङ्गै टीका लगाउँदा",
+    description: "Festive celebration with blessings and laughter.",
+    descriptionNp: "चाडपर्वको रमाइलो र आशीर्वादको क्षण।",
+    person: "both",
+    type: "festival"
+  }
+];
+
+const letters = {
+  ambika: `Dear Ambika Diju,\n\nHaving you in our family is a blessing. Thank you for your warmth, wisdom, and for always being a guiding, supportive presence in our lives.\n\nWith love,\nDipesh`,
+  muskan: `Dear Muskan,\n\nLife is never boring with you around! Thank you for all the laughter, the crazy moments, and for making growing up so full of joy.\n\nWith love,\nDipesh`
+};
+
+/* 10-QUESTION SEQUENTIAL QUIZ DATA */
+const quizQuestions = [
+  { q: "Who is most likely to steal the last piece of delicious food at home?", opts: ["Ambika Diju", "Muskan", "Dipesh"], ans: 1 },
+  { q: "Who stays up latest at night during weekends?", opts: ["Ambika Diju", "Muskan", "Dipesh"], ans: 0 },
+  { q: "Who holds onto cherished childhood memories the most?", opts: ["Dipesh", "Ambika Diju", "Muskan"], ans: 0 },
+  { q: "Who is the most passionate about social media and capturing photos?", opts: ["Ambika Diju", "Muskan", "Dipesh"], ans: 0 },
+  { q: "Who gets scared of scary movies and ghost stories the fastest?", opts: ["Everyone equally", "Only Dipesh", "Nobody"], ans: 0 },
+  { q: "Who brings the most energy and loud laughter to family gatherings?", opts: ["Muskan", "Ambika Diju", "Dipesh"], ans: 0 },
+  { q: "Who is most likely to win a casual argument at home?", opts: ["Ambika Diju", "Muskan", "Dipesh"], ans: 1 },
+  { q: "Which festival is celebrated with the grandest family gatherings?", opts: ["Dashain & Tihar", "Holi", "Teej"], ans: 0 },
+  { q: "Who is the most supportive when someone in the house needs help?", opts: ["All family members together", "Dipesh only", "Neither"], ans: 0 },
+  { q: "What is the true strength of our family?", opts: ["Unbreakable Family Bond", "Endless Laughter", "Shared Memories"], ans: 0 }
+];
+
+/* LANGUAGE TRANSLATIONS */
+const translations = {
+  en: {
+    hero_title: "Our Little<br>Universe",
+    hero_line: "One special family. Thousands of moments. One forever story.",
+    audio_remember_prompt: "Are you able to remember this audio?",
+    ambika_card_desc: "View Ambika Diju's exclusive life timeline, photo memories & letters from birth to now.",
+    muskan_card_desc: "View Muskan's exclusive life timeline, photo memories & letters from birth to now.",
+    open_ambika: "Open Ambika Diju's Space →",
+    open_muskan: "Open Muskan's Space →",
+    guide_tip: "💡 Tap Ambika Diju or Muskan above to explore their individual chapters!",
+    preview_eyebrow: "Shared Memories Preview",
+    preview_title: "Family Moments Together",
+    preview_sub: "A quick look at memories involving all of us together — tap any photo to expand.",
+    wall_eyebrow: "The Polaroid Wall",
+    wall_title: "Snapshots Of Us",
+    creator_eyebrow: "Our Creative World",
+    creator_title: "Digital Milestones & Content Journey",
+    creator_sub: "Celebrating creativity, digital storytelling, video content, and online milestones made in Nepal.",
+    cr_1_title: "Digital Storytelling",
+    cr_1_desc: "Creating videos and sharing authentic stories that reach thousands of hearts across Nepal.",
+    cr_2_title: "Monetized Milestones",
+    cr_2_desc: "Turning passion into purpose with official digital creator achievements and verified milestones.",
+    cr_3_title: "Viral Highlights",
+    cr_3_desc: "Capturing moments that spark engagement, smiles, and widespread appreciation online.",
+    cr_4_title: "Family Inspiration",
+    cr_4_desc: "The creative drive that proves passion and consistency always bring great success.",
+    games_eyebrow: "Interactive Fun",
+    games_title: "Family Games & Trivia",
+    bond_title: "Family & Sibling Bond Meter 💖",
+    bond_desc: "Check today's official family compatibility index!",
+    quiz_title: "10-Question Family Quiz ❓",
+    letters_eyebrow: "Two Envelopes",
+    letters_title: "Letters Written For You",
+    env_ambika: "For Ambika Diju 🌷",
+    env_muskan: "For Muskan 🌸",
+    finale_title: "Happy Raksha Bandhan",
+    finale_1: "Relationships are built on protection and love.",
+    finale_2: "And the truth is...",
+    finale_3: "You both have guided and protected pieces of me too.",
+    finale_4: "No matter where life takes us...",
+    finale_5: "Our family bond remains forever.",
+    ambika_view_sub: "Ambika Diju's dedicated memory chapter from birth through today and future memories.",
+    muskan_view_sub: "Muskan's dedicated memory chapter from birth through today and future memories.",
+    footer_text: "Made with everything I have, for Ambika Diju & Muskan by Dipesh.",
+    coming_soon: "Coming soon...",
+    future_year: "Future Memory",
+    filter_all: "All",
+    quiz_restart: "Play Again 🔄"
+  },
+  ne: {
+    hero_title: "हाम्रो सानो<br>संसार",
+    hero_line: "एउटा विशेष परिवार। हजारौं क्षणहरू। एउटा अनन्त कथा।",
+    audio_remember_prompt: "के तिमीलाई यो पुरानो भिडियोको आवाज सम्झना छ?",
+    ambika_card_desc: "अम्बिका दिजुको जन्मदेखि आजसम्मको सम्पूर्ण सम्झना र तस्बिरहरू हेर्नुहोस्।",
+    muskan_card_desc: "मुस्कानको जन्मदेखि आजसम्मको सम्पूर्ण सम्झना र तस्बिरहरू हेर्नुहोस्।",
+    open_ambika: "अम्बिका दिजुको संसार खोल्नुहोस् →",
+    open_muskan: "मुस्कानको संसार खोल्नुहोस् →",
+    guide_tip: "💡 अम्बिका दिजु वा मुस्कानलाई थिचेर उनीहरूको छुट्टै अध्यायमा जानुहोस्!",
+    preview_eyebrow: "साझा सम्झनाहरूको झलक",
+    preview_title: "हाम्रो पारिवारिक क्षणहरू",
+    preview_sub: "हामी सँगै भएका सम्झनाहरूको सानो झलक — हेर्न ट्याप गर्नुहोस्।",
+    wall_eyebrow: "तस्बिरको भित्ता",
+    wall_title: "हाम्रा खास तस्बिरहरू",
+    creator_eyebrow: "हाम्रो सिर्जनात्मक संसार",
+    creator_title: "डिजिटल यात्रा र सफलताका क्षणहरू",
+    creator_sub: "भिडियो सिर्जना, डिजिटल यात्रा र नेपालभर प्राप्त भएका अनलाइन सफलताका उपलब्धिहरू।",
+    cr_1_title: "डिजिटल यात्रा",
+    cr_1_desc: "नेपालभर हजारौं दर्शकसम्म पुग्ने रमाइला र प्रेरणादायी भिडियोहरू।",
+    cr_2_title: "आधिकारिक उपलब्धिहरू",
+    cr_2_desc: "सिर्जनशीलता र मेहनतका साथ डिजिटल प्लेटफर्ममा हासिल गरिएका सफलताहरू।",
+    cr_3_title: "चर्चित क्षणहरू",
+    cr_3_desc: "मानिसहरूको मन जित्ने र सामाजिक सञ्जालमा चर्चा पाएका रमाइला भिडियोहरू।",
+    cr_4_title: "परिवारको प्रेरणा",
+    cr_4_desc: "लगनशीलता र निरन्तरताले कसरी ठूलो सफलता ल्याउँछ भन्ने उदाहरणीय यात्रा।",
+    games_eyebrow: "रमाइलो खेलहरू",
+    games_title: "पारिवारिक खेलहरू",
+    bond_title: "सम्बन्धको मिटर 💖",
+    bond_desc: "आजको पारिवारिक सम्बन्ध मापन गर्नुहोस्!",
+    quiz_title: "१० वटा पारिवारिक प्रश्नोत्तर ❓",
+    letters_eyebrow: "दुई खामहरू",
+    letters_title: "तिमीहरूका लागि लेखिएका पत्रहरू",
+    env_ambika: "अम्बिका दिजुका लागि 🌷",
+    env_muskan: "मुस्कानका लागि 🌸",
+    finale_title: "रक्षाबन्धनको शुभकामना",
+    finale_1:"सम्बन्धहरू माया र विश्वासमा टिकेका हुन्छन्।",
+    finale_2:"तर साँचो कुरा यस्तो छ...",
+    finale_3:"तिमीहरू दुवैले मलाई सधैं माया र मार्गदर्शन दिएका छौ।",
+    finale_4:"जीवनले जहाँ लगे पनि...",
+    finale_5:"हाम्रो पारिवारिक सम्बन्ध अनन्त रहनेछ।",
+    ambika_view_sub: "जन्मदेखि आज र भविष्यसम्मको अम्बिका दिजुको छुट्टै सम्झना अध्याय।",
+    muskan_view_sub: "जन्मदेखि आज र भविष्यसम्मको मुस्कानको छुट्टै सम्झना अध्याय।",
+    footer_text: "अम्बिका दिजु र मुस्कानका लागि दिपेशद्वारा मायाका साथ बनाइएको।",
+    coming_soon: "चाँडै आउँदैछ...",
+    future_year: "भविष्यको सम्झना",
+    filter_all: "सबै",
+    quiz_restart: "फेरि खेल्नुहोस् 🔄"
+  }
+};
+
+let currentLang = "en";
+const $ = (s, c = document) => c.querySelector(s);
+const $all = (s, c = document) => Array.from(c.querySelectorAll(s));
+const t = k => (translations[currentLang] && translations[currentLang][k]) || translations.en[k] || k;
+
+function memTitle(m){ return (currentLang==="ne" && m.titleNp) ? m.titleNp : (m.title || ""); }
+function memDesc(m){ return (currentLang==="ne" && m.descriptionNp) ? m.descriptionNp : (m.description || ""); }
+
+/* NON-OVERLAPPING MEDIA ROUTING (AUDIO & VIDEO MANAGEMENT) */
+const bgVideoEl = $("#bgVideoPlayer");
+const audioEl = $("#audioPlayer");
+
+function playHomeMedia(){
+  // Stop and reset audio player when entering home/finale
+  audioEl.pause();
+  audioEl.currentTime = 0;
+  
+  // Play video with audio enabled
+  if(bgVideoEl) {
+    bgVideoEl.muted = false;
+    bgVideoEl.src = audioTracks.homeVideo;
+    bgVideoEl.play().catch(() => {
+      // Fallback: if browser blocks unmuted autoplay, mute temporarily to allow playback
+      bgVideoEl.muted = true;
+      bgVideoEl.play().catch(() => {});
+    });
+  }
+}
+
+function playSisterSoundtrack(trackFile){
+  // Pause and mute video background when entering sister views
+  if(bgVideoEl) {
+    bgVideoEl.pause();
+    bgVideoEl.muted = true;
+  }
+  
+  // Play dedicated soundtrack looped
+  audioEl.src = trackFile;
+  audioEl.loop = true;
+  audioEl.play().catch(() => {});
+}
+
+/* VIEW SWITCHING LOGIC */
+function showHomeView(){
+  $("#homeView").style.display = "block";
+  $("#ambikaView").classList.remove("active");
+  $("#muskanView").classList.remove("active");
+  window.scrollTo({top:0, behavior:'smooth'});
+  playHomeMedia();
+}
+
+function showAmbikaView(){
+  $("#homeView").style.display = "none";
+  $("#muskanView").classList.remove("active");
+  $("#ambikaView").classList.add("active");
+  window.scrollTo({top:0, behavior:'smooth'});
+  playSisterSoundtrack(audioTracks.ambika);
+}
+
+function showMuskanView(){
+  $("#homeView").style.display = "none";
+  $("#ambikaView").classList.remove("active");
+  $("#muskanView").classList.add("active");
+  window.scrollTo({top:0, behavior:'smooth'});
+  playSisterSoundtrack(audioTracks.muskan);
+}
+
+/* RENDER DEDICATED SISTER TIMELINES */
+function renderSisterTimeline(person, containerId){
+  const host = $("#"+containerId);
+  if(!host) return;
+  host.innerHTML = "";
+  const currentYear = new Date().getFullYear();
+  const startYear = siteConfig.birthYear;
+  const endYear = currentYear + siteConfig.futureYearsAhead;
+
+  for(let y = startYear; y <= endYear; y++){
+    const list = memories.filter(m => (m.person === person || m.person === "both") && Number(m.year) === y);
+    const isFuture = y > currentYear;
+
+    const block = document.createElement("div");
+    block.className = "year-block reveal";
+    block.innerHTML = `
+      <div class="year-head">
+        <div class="year-num">${y}</div>
+        <div class="year-line"></div>
+        ${isFuture ? `<div class="year-tag">${t("future_year")}</div>` : ""}
+      </div>
+      <div class="year-grid"></div>
+    `;
+
+    const grid = block.querySelector(".year-grid");
+
+    if(list.length > 0){
+      list.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "mem-card";
+        card.innerHTML = `
+          <div class="mc-photo"><img src="${m.image}" alt="${memTitle(m)}" onerror="this.src='';this.parentNode.innerHTML='<div class=\'cs-text\'>${t('coming_soon')}</div>';"></div>
+          <div class="mc-info">
+            <div class="mc-date">${m.date||""}</div>
+            <div class="mc-title serif">${memTitle(m)}</div>
+            <div class="mc-desc">${memDesc(m)}</div>
+          </div>
+        `;
+        card.addEventListener("click", () => openLightbox(m));
+        grid.appendChild(card);
+      });
+    } else {
+      const card = document.createElement("div");
+      card.className = "mem-card coming-soon";
+      card.innerHTML = `<div class="cs-text">${isFuture ? "✨ " : ""}${t("coming_soon")}</div>`;
+      grid.appendChild(card);
+    }
+
+    host.appendChild(block);
+  }
+  $all(".reveal", host).forEach(e => revealObserver.observe(e));
+}
+
+/* RENDER HOME PREVIEW */
+function renderHomePreview(){
+  const grid = $("#homePreviewGrid");
+  if(!grid) return;
+  grid.innerHTML = "";
+  const shared = memories.filter(m => m.person === "both" || m.person === "family");
+  
+  if(shared.length === 0){
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--ivory-faint);">${t('coming_soon')}</div>`;
+    return;
+  }
+
+  shared.forEach(m => {
+    const card = document.createElement("div");
+    card.className = "mem-card";
+    card.innerHTML = `
+      <div class="mc-photo"><img src="${m.image}" alt="${memTitle(m)}" onerror="this.src='';this.parentNode.innerHTML='<div class=\'cs-text\'>${t('coming_soon')}</div>';"></div>
+      <div class="mc-info">
+        <div class="mc-date">${m.date||""}</div>
+        <div class="mc-title serif">${memTitle(m)}</div>
+      </div>
+    `;
+    card.addEventListener("click", () => openLightbox(m));
+    grid.appendChild(card);
+  });
+}
+
+/* RENDER POLAROID GALLERY & FILTERS */
+function renderPolaroidWall(){
+  const grid = $("#polaroidWallGrid");
+  const bar = $("#filterBar");
+  if(!grid || !bar) return;
+  grid.innerHTML = ""; bar.innerHTML = "";
+
+  const types = [...new Set(memories.map(m => m.type).filter(Boolean))];
+  const rotations = [-4, 5, -3, 6, -5, 4];
+
+  const allBtn = document.createElement("button");
+  allBtn.className = "filter-btn active";
+  allBtn.textContent = t("filter_all");
+  allBtn.dataset.type = "all";
+  bar.appendChild(allBtn);
+
+  types.forEach(type => {
+    const btn = document.createElement("button");
+    btn.className = "filter-btn";
+    btn.dataset.type = type;
+    btn.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+    bar.appendChild(btn);
+  });
+
+  memories.forEach((m, idx) => {
+    const card = document.createElement("div");
+    card.className = "polaroid";
+    card.dataset.type = m.type || "";
+    card.style.transform = `rotate(${rotations[idx % rotations.length]}deg)`;
+    card.innerHTML = `
+      <img src="${m.image}" alt="${memTitle(m)}" onerror="this.style.display='none';">
+      <div class="cap">${memTitle(m) || m.date || ''}</div>
+    `;
+    card.addEventListener("click", () => openLightbox(m));
+    grid.appendChild(card);
+  });
+
+  bar.onclick = (e) => {
+    const btn = e.target.closest(".filter-btn");
+    if(!btn) return;
+    $all(".filter-btn", bar).forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const selected = btn.dataset.type;
+    $all(".polaroid", grid).forEach(p => {
+      p.style.display = (selected === "all" || p.dataset.type === selected) ? "block" : "none";
+    });
+  };
+}
+
+/* LIGHTBOX */
+function openLightbox(m){
+  $("#lbImg").src = m.image;
+  $("#lbDate").textContent = m.date || "";
+  $("#lbTitle").textContent = memTitle(m);
+  $("#lbDesc").textContent = memDesc(m);
+  $("#lightbox").classList.add("open");
+}
+function closeLightbox(){ $("#lightbox").classList.remove("open"); }
+
+/* LETTERS MODAL */
+function openLetter(who){
+  $("#letterHeading").textContent = who === "ambika" ? (currentLang==="ne"?"अम्बिका दिजुका लागि 🌷":"For Ambika Diju 🌷") : (currentLang==="ne"?"मुस्कानका लागि 🌸":"For Muskan 🌸");
+  $("#letterBody").textContent = letters[who] || "";
+  $("#letterModal").classList.add("open");
+}
+function closeLetterModal(){ $("#letterModal").classList.remove("open"); }
+
+/* BOND METER GAME */
+function testBond(who){
+  const scores = ["1000% Infinite Love 💖", "100% Unbreakable Bond 🔒", "99.9% Best Family Bond 🌟", "500% Sibling & Family Magic 🤪"];
+  const res = scores[Math.floor(Math.random() * scores.length)];
+  $("#bondResult").textContent = `${who}: ${res}`;
+}
+
+/* SEQUENTIAL 10-QUESTION QUIZ GAME LOGIC */
+let currentQuizIdx = 0;
+let quizScore = 0;
+
+function renderSequentialQuiz(){
+  const box = $("#quizContainer");
+  if(!box) return;
+  box.innerHTML = "";
+
+  if(currentQuizIdx >= quizQuestions.length){
+    box.innerHTML = `
+      <div class="quiz-final">
+        <div class="quiz-progress">${currentLang==="ne"?"नतिजा":"Quiz Completed!"}</div>
+        <div class="quiz-score-num">${quizScore} / ${quizQuestions.length}</div>
+        <p style="font-size:0.95rem;color:var(--ivory-dim);">${quizScore >= 8 ? "Amazing! You know our family inside out! ❤️" : "Great job! A lifetime of shared memories!"}</p>
+        <button class="control-btn" style="margin-top:1.2rem;padding:0.6rem 1.4rem;" onclick="restartQuiz()">${t('quiz_restart')}</button>
+      </div>
+    `;
+    return;
+  }
+
+  const q = quizQuestions[currentQuizIdx];
+  const qWrap = document.createElement("div");
+  qWrap.className = "quiz-q-wrap";
+  qWrap.innerHTML = `
+    <div class="quiz-progress">Question ${currentQuizIdx + 1} of ${quizQuestions.length}</div>
+    <div class="quiz-q">${q.q}</div>
+    <div>${q.opts.map((o, i) => `<button class="quiz-opt" onclick="submitQuizAnswer(this, ${i}, ${q.ans})">${o}</button>`).join('')}</div>
+  `;
+  box.appendChild(qWrap);
+}
+
+function submitQuizAnswer(btn, chosen, correct){
+  const parent = btn.parentNode;
+  $all(".quiz-opt", parent).forEach(b => b.disabled = true);
+  if(chosen === correct){
+    btn.classList.add("correct");
+    quizScore++;
+  } else {
+    btn.classList.add("wrong");
+    $all(".quiz-opt", parent)[correct].classList.add("correct");
+  }
+
+  setTimeout(() => {
+    currentQuizIdx++;
+    renderSequentialQuiz();
+  }, 1100);
+}
+
+function restartQuiz(){
+  currentQuizIdx = 0;
+  quizScore = 0;
+  renderSequentialQuiz();
+}
+
+/* THEME & LANGUAGE CONTROLS */
+function initTheme(){
+  const html = document.documentElement;
+  const btn = $("#themeToggle");
+  let saved = localStorage.getItem("rb_theme") || "dark";
+  html.setAttribute("data-theme", saved);
+  btn.textContent = saved === "dark" ? "☀️" : "🌙";
+  
+  btn.addEventListener("click", () => {
+    const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    html.setAttribute("data-theme", next);
+    btn.textContent = next === "dark" ? "☀️" : "🌙";
+    localStorage.setItem("rb_theme", next);
+  });
+}
+
+function applyTranslations(){
+  $all("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if(translations[currentLang] && translations[currentLang][key] !== undefined) el.innerHTML = t(key);
+  });
+  document.body.setAttribute("lang-mode", currentLang);
+  renderSisterTimeline("ambika", "ambikaTimelineContainer");
+  renderSisterTimeline("muskan", "muskanTimelineContainer");
+  renderHomePreview();
+  renderPolaroidWall();
+  renderSequentialQuiz();
+}
+
+function initLang(){
+  const btn = $("#langToggle");
+  currentLang = localStorage.getItem("rb_lang") || "en";
+  btn.textContent = currentLang === "en" ? "नेप" : "EN";
+  
+  btn.addEventListener("click", () => {
+    currentLang = currentLang === "en" ? "ne" : "en";
+    btn.textContent = currentLang === "en" ? "नेप" : "EN";
+    localStorage.setItem("rb_lang", currentLang);
+    applyTranslations();
+  });
+}
+
+/* SCROLL REVEAL & PARTICLES */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("revealed"); });
+}, { threshold: 0.12 });
+
+function initParticles(){
+  const canvas = $("#particleCanvas"); const ctx = canvas.getContext("2d");
+  let w, h, particles = [];
+  function resize(){ w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+  window.addEventListener("resize", resize); resize();
+  for(let i=0;i<45;i++){
+    particles.push({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*1.2 + 0.3, vy: Math.random()*0.12 + 0.03, vx: (Math.random()-0.5)*0.04, a: Math.random()*0.5 + 0.1 });
+  }
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = "#e7cf9e";
+    particles.forEach(p => {
+      p.y -= p.vy; p.x += p.vx;
+      if(p.y < -5) p.y = h+5; if(p.x < -5) p.x = w+5; if(p.x > w+5) p.x = -5;
+      ctx.globalAlpha = p.a; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+    });
+    ctx.globalAlpha = 1; requestAnimationFrame(tick);
+  }
+  tick();
+}
+
+/* INTRO ANIMATION */
+function initIntro(){
+  const shlok = $("#shlokBlock"), l1 = $("#intro1"), l2 = $("#intro2"), l3 = $("#intro3"), btn = $("#enterBtn");
+  setTimeout(() => shlok.classList.add("show"), 300);
+  setTimeout(() => { shlok.style.opacity = 0.35; l1.classList.add("show"); }, 2800);
+  setTimeout(() => { l1.style.opacity = 0.35; l2.classList.add("show"); }, 4200);
+  setTimeout(() => { l2.style.opacity = 0.35; l3.classList.add("show"); }, 5600);
+  setTimeout(() => btn.classList.add("show"), 6800);
+
+  btn.addEventListener("click", () => {
+    $("#intro").classList.add("hidden");
+    document.body.style.overflow = "";
+    playHomeMedia();
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.style.overflow = "hidden";
+  initTheme();
+  initLang();
+  
+  $("#openAmbikaBtn").addEventListener("click", showAmbikaView);
+  $("#openMuskanBtn").addEventListener("click", showMuskanView);
+  
+  renderHomePreview();
+  renderPolaroidWall();
+  renderSequentialQuiz();
+  initParticles();
+  initIntro();
+  
+  $all(".reveal", document).forEach(e => revealObserver.observe(e));
+});
+</script>
+</body>
+</html>
